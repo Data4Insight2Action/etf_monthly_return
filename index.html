@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Canadian ETFs: returns by month, and what sitting in cash would have done</title>
+<title>Stock Market Seasons</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -34,7 +34,7 @@ details.sec[open]>summary{margin-bottom:10px}
 button{font:inherit;font-size:14px;color:var(--text-primary);background:transparent;border:0.5px solid var(--border-strong);border-radius:var(--radius);min-height:36px;padding:0 12px;cursor:pointer}
 @media (hover:hover){button:hover:not(:disabled),label.btn:hover{background:var(--bg-accent)}}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
-@media (max-width:480px){h2{font-size:22px}}
+@media (max-width:480px){h1{font-size:26px}h2{font-size:22px}}
 button:disabled{opacity:.45;cursor:default}
 select{font:inherit;font-size:14px;color:var(--text-primary);background:transparent;border:0.5px solid var(--border-strong);border-radius:var(--radius);min-height:36px;padding:0 8px}
 button:focus-visible{outline:2px solid var(--border-accent);outline-offset:2px}
@@ -70,7 +70,6 @@ th:first-child,td:first-child{text-align:left}
 th{font-weight:500;color:var(--text-secondary)}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 table.sizes tr.user .tk::after{content:"added";margin-left:6px;padding:0 4px;font-size:10px;font-weight:400;color:var(--text-accent);border:0.5px solid var(--border-accent);border-radius:4px}
-header>details.sec:first-child{border-top:0;margin-top:0;padding-top:0}
 .ud-mode{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;font-size:14px;margin:12px 0 10px}
 .ud-mode>span{color:var(--text-secondary)}
 .ud-mode label{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
@@ -86,6 +85,9 @@ header>details.sec:first-child{border-top:0;margin-top:0;padding-top:0}
 <body>
 <main>
 <header>
+<h1>Stock Market Seasons</h1>
+<p class="lede">Does monthly investment performance follow a pattern? Can you improve returns by rotating into cash during specific months of the year?</p>
+<p class="lede" style="margin-top:10px">Provide this app with your holdings' historical data, and it will calculate the difference between holding continuously and rotating into cash during specific months.</p>
 <details class="sec" id="ud">
 <summary><h2>1. Load your own data (optional)</h2></summary>
 <p class="note" id="ud-state"></p>
@@ -513,7 +515,7 @@ draw();
 
 <details class="sec">
 <summary><h2>5. Find the strong and weak months</h2></summary>
-<p class="intro" style="font-size:16px;line-height:1.6;color:var(--text-secondary);margin:0 0 16px">One bar per calendar month, January through December. Each bar is built only from that month: the January bar uses every January in the date range, the February bar every February, and so on. Expected ROI is what one of those months typically looked like. Compound ROI chains them together, as if you held only that month each year. Average, median, worst and best read straight off that month's returns. Volatility is how much they varied, so it is never negative and is drawn in grey. Green bars gained, red bars lost. Dividends are included. Narrow the bars to the months you care about, and switch to one shared up-and-down scale when you want to compare heights between funds.</p>
+<p class="intro" style="font-size:16px;line-height:1.6;color:var(--text-secondary);margin:0 0 16px">One bar per calendar month, January through December. Each bar is built only from that month: the January bar uses every January in the date range, the February bar every February, and so on. Expected ROI is what one of those months typically looked like. Compound ROI chains them together, as if you held only that month each year. Average, median, worst and best read straight off that month's returns. Volatility is how much they varied, so it is never negative and is drawn in grey. Green bars gained, red bars lost. Dividends are included. Narrow the bars to the months you care about, and switch to one shared up-and-down scale when you want to compare heights between securities.</p>
 <p class="intro">The check box after each ticker narrows the choice in section 6, Test sitting in cash in weak months. Untick a box to leave that holding out of that section's bars; tick it again to bring it back. Only holdings ticked in section 3, Choose securities, appear here, so this filters them further. It changes nothing in the other sections, and every box is ticked again when the page reloads.</p>
 <style>
 .mc-g{margin:0 0 14px}
@@ -783,7 +785,7 @@ function draw() {
   document.getElementById('mc-msg').textContent = !pickMonths.size
     ? 'No months are chosen. Pick at least one, or choose Whole year.'
     : (total ? '' : 'No months fall in this date range. Widen the dates.');
-  // rank each month across the funds on show: 1 is best, and for volatility that means calmest
+  // rank each month across the securities on show: 1 is best, and for volatility that means calmest
   const live = cards.filter(c => shown(c.t) && c.vals && c.vals.length);
   rankTotal = live.length;
   const lowIsBest = NEUTRAL[measure];
@@ -1072,7 +1074,7 @@ const bars = new Chart(document.getElementById('sk-bars'), {
       } } } },
     scales: {
       x: { grid: { display: false }, ticks: { autoSkip: false, maxRotation: 90, minRotation: 90, color: TICK, font: { size: 10 },
-        callback(v) { const t = barOrder[v] || ''; return t.replace('.TO', ''); } } },
+        callback(v) { return barOrder[v] || ''; } } },
       y: { grid: { color: c => (c.tick && c.tick.value === 0 ? BASE : GRID) }, border: { display: false },
         ticks: { color: TICK, font: { size: 11 }, callback: v => +v.toFixed(0) + '%' } }
     }
