@@ -87,7 +87,7 @@ table.sizes tr.user .tk::after{content:"added";margin-left:6px;padding:0 4px;fon
 <header>
 <h1>Stock Market Seasons</h1>
 <p class="lede">Does monthly investment performance follow a pattern? Can you improve returns by rotating into cash during specific months of the year?</p>
-<p class="lede" style="margin-top:10px">Provide this app with your holdings' historical data, and it will calculate the difference between holding continuously and rotating into cash during specific months.</p>
+<p class="lede" style="margin-top:10px">Right now this app has <span id="builtin-n">17</span> built-in tickers for your analysis. You can load your holdings' historical data to the app, and it will calculate the difference between holding continuously and rotating into cash during specific months.</p>
 <details class="sec" id="ud">
 <summary><h2>1. Load your own data (optional)</h2></summary>
 <p class="note" id="ud-state"></p>
@@ -1383,7 +1383,8 @@ drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add(
 drop.addEventListener('dragleave', () => drop.classList.remove('over'));
 drop.addEventListener('drop', e => { e.preventDefault(); drop.classList.remove('over'); add(e.dataTransfer.files, { replace: replaceChosen() }); });
 
-// what the app is showing
+// what the app is showing; the intro counts the tickers built into this file
+document.getElementById('builtin-n').textContent = BUILTIN.size;
 document.getElementById('ud-state').textContent = replacing
   ? 'The app is showing your data: ' + T.length + (T.length === 1 ? ' security' : ' securities') + ', in place of the built-in securities.'
   : 'The app is showing its built-in data: ' + BUILTIN.size + (BUILTIN.size === 1 ? ' security' : ' securities') + (T.length ?', plus ' + T.length + (T.length === 1 ? ' security' : ' securities') + ' you added.' : '.');
